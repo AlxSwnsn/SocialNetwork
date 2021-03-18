@@ -10,21 +10,26 @@ import News from "./components/news/News";
 import Settings from "./components/settings/Settings";
 import {RootStateType} from "./Redux/State";
 
-type PropsType = {
+type AppPropsType = {
     state: RootStateType
-    addPost: (message: string) => void
+    dispatch: (action: any) => void
 }
 
-const App = (props: PropsType) => {
+
+const App = (props: AppPropsType) => {
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
             <div className={"app-wrapper-content"}>
-                <Route path={'/dialogs'} render={() => <Dialogs dialogs={props.state.dialogsPage.dialogs}
-                                                                messages={props.state.dialogsPage.messages}/>}/>
+                <Route path={'/dialogs'} render={() => <Dialogs dialogsPage={props.state.dialogsPage}
+                                                                dispatch={props.dispatch}
+                                                              />}/>
                 <Route path={'/profile'}
-                       render={() => <Profile posts={props.state.profilePage.posts} addPost={props.addPost}/>}/>
+                       render={() => <Profile posts={props.state.profilePage.posts}
+                                              newPostText={props.state.profilePage.newPostText}
+                                              dispatch={props.dispatch}
+                       />}/>
                 <Route path={'/news'} render={() => <News/>}/>
                 <Route path={'/music'} render={() => <Music/>}/>
                 <Route path={'/settings'} render={() => <Settings/>}/>

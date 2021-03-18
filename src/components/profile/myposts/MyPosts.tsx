@@ -2,24 +2,32 @@ import React from "react";
 import classes from './MyPosts.module.css'
 import {Post} from "./post/Post";
 import {PostType} from "../../../Redux/State";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../Redux/ProfileReducer";
+
+
 
 type PropsType = {
     posts: Array<PostType>
-    addPost: (message: string) => void
+    dispatch: (action: any) => void
+    newPostText: string
 }
 
 const MyPosts = (props: PropsType) => {
 
-    let postsElements= props.posts.map((post)=> <Post message={post.message} id={post.id} like={post.like}/>)
+    let postsElements = props.posts.map((post) => <Post message={post.message} id={post.id} like={post.like}/>)
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
-    let addPost =()=>{
-            props.addPost(newPostElement.current? newPostElement.current.value:"---")
-        if (newPostElement.current){
-            newPostElement.current.value=" "
-
+    let addPost = () => {
+        props.dispatch(addPostActionCreator())
+        if (newPostElement.current) {
+            newPostElement.current.value = " "
         }
+    }
+
+    let onPostChange = () => {
+        let text = (newPostElement.current ? newPostElement.current.value : "---")
+        props.dispatch(updateNewPostTextActionCreator(text))
 
     }
 
@@ -28,7 +36,7 @@ const MyPosts = (props: PropsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea ref={newPostElement} onChange={onPostChange}/>
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>

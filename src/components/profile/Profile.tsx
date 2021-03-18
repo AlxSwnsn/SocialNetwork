@@ -6,7 +6,8 @@ import {PostType} from "../../Redux/State";
 
 type PropsType = {
     posts: Array<PostType>
-    addPost: (message: string) => void
+    newPostText: string
+    dispatch: (action: any) => void
 }
 
 
@@ -14,7 +15,10 @@ const Profile = (props:PropsType) => {
 
     return <div>
         <ProfileInfo/>
-        <MyPosts posts={props.posts} addPost={props.addPost}/>
+        <MyPosts posts={props.posts}
+                 newPostText={props.newPostText}
+                 dispatch={props.dispatch}
+        />
     </div>
 
 
