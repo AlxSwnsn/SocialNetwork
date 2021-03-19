@@ -1,12 +1,19 @@
 import React from 'react';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import store, {RootStateType} from "./Redux/State";
+import {DialogsPageType, ProfilePageType, RootStateType} from "./Redux/Store";
+import {store} from "./Redux/ReduxStore"
 import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 
-let rerenderEntireTree = (state:RootStateType) => {
+export type CombinedStateType={
+    ProfileReducer: ProfilePageType
+    DialogsReducer: DialogsPageType
+    SidebarReducer: any
+}
+
+let rerenderEntireTree = (state:any) => {
 
 
     ReactDOM.render(
@@ -20,7 +27,9 @@ let rerenderEntireTree = (state:RootStateType) => {
 }
 rerenderEntireTree(store.getState())
 
-store.subscribe(rerenderEntireTree);
+store.subscribe(()=>{
+    let state=store.getState()
+    rerenderEntireTree(state)});
 
 
 

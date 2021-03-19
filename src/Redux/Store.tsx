@@ -1,6 +1,7 @@
 import {ProfileReducer} from "./ProfileReducer";
 import {DialogsReducer} from "./DialogsReducer";
 import {SidebarReducer} from "./SidebarReducer";
+import {CombinedState} from "redux";
 
 export type ProfilePageType = {
     posts: Array<PostType>

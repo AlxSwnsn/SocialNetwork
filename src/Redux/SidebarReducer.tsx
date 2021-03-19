@@ -1,6 +1,8 @@
 import React from "react";
-import {ActionPropsType} from "./State";
+import {ActionPropsType} from "./Store";
 
-export const SidebarReducer=(state: any, action: ActionPropsType) => {
+let initialState={}
+
+export const SidebarReducer=(state: any=initialState, action: ActionPropsType) => {
     return state
 }
