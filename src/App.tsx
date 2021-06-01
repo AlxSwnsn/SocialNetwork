@@ -9,6 +9,8 @@ import News from "./components/news/News";
 import Settings from "./components/settings/Settings";
 import {AppStateType, AppStoreType} from "./Redux/ReduxStore";
 import DialogsContainer from "./components/dialogs/DialogsContainer";
+import UsersContainer from "./components/users/UsersContainer";
+import UsersAPIComponent from "./components/users/UsersContainer";
 
 type AppPropsType = {
     state: AppStateType
@@ -30,13 +32,16 @@ const App = () => {
                        render={() =>
                            <Profile/>
                        }/>
-                <Route path={'/news'} render={() => <News/>}/>
-                <Route path={'/music'} render={() => <Music/>}/>
-                <Route path={'/settings'} render={() => <Settings/>}/>
-            </div>
-        </div>
-    );
-}
+                <Route path={'/users'}
+                       render={() =>
+                           <UsersContainer />                       }/>
+                           <Route path={'/news'} render={() => <News/>}/>
+                           <Route path={'/music'} render={() => <Music/>}/>
+                           <Route path={'/settings'} render={() => <Settings/>}/>
+                           </div>
+                           </div>
+                           );
+                           }
 
 
-export default App;
+                           export default App;
