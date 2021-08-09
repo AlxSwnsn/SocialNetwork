@@ -5,10 +5,12 @@ import Message from "./message/Message";
 import {DialogsInitialStateType} from "../../Redux/DialogsReducer";
 
 
-type PropsType = {
+export type PropsType = {
     updateNewMessageBody: (body: string) => void
     sendMessage: () => void
     dialogsPage: DialogsInitialStateType
+    isAuth: boolean
+
 }
 const Dialogs = (props: PropsType) => {
 
@@ -29,6 +31,8 @@ const Dialogs = (props: PropsType) => {
     let onSendMessageClick = () => {
         props.sendMessage()
     }
+
+
 
     return (
 

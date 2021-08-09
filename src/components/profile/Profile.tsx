@@ -1,18 +1,11 @@
 import React from "react";
-import ProfileInfo from "./profileInfo/ProfileInfo";
 import MyPostsContainer from "./myposts/MyPostsContainer";
-import { AppStoreType } from "../../Redux/ReduxStore";
+import ProfileInfo, {ProfileInfoProps} from "./profileInfo/ProfileInfo";
 
-
-type PropsType = {
-    store:AppStoreType
-}
-
-
-const Profile = () => {
-
+const Profile = (props: ProfileInfoProps) => {
     return <div>
-        <ProfileInfo/>
+        <h2>Profile</h2>
+        <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
         <MyPostsContainer  />
     </div>
 
