@@ -4,14 +4,16 @@ import {DialogsReducer} from "./DialogsReducer";
 import {ProfileReducer} from "./ProfileReducer";
 import {UsersReducer} from "./UsersReducer";
 import {AuthReducer} from "./AuthReducer";
-import thunkMiddleware from "redux-thunk"
+import thunkMiddleware from "redux-thunk";
+import {reducer as formReducer} from "redux-form"
 
 let reducers = combineReducers({
     Profile: ProfileReducer,
     Dialogs: DialogsReducer,
     Sidebar: SidebarReducer,
     Users: UsersReducer,
-    Auth: AuthReducer
+    Auth: AuthReducer,
+    form: formReducer
 })
 
 

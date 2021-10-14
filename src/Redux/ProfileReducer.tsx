@@ -3,7 +3,6 @@ import {profileAPI} from "../API/API";
 import {Dispatch} from "redux";
 
 export const ADD_POST = "ADD-POST"
-export const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
 export const SET_USER_PROFILE = "SET-USER-PROFILE"
 export const SET_STATUS = "SET-STATUS"
 
@@ -36,7 +35,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Pr
         case ADD_POST: {
             let newPost: PostType = {
                 id: 5,
-                message: state.newPostText,
+                message: action.newPostText,
                 like: 6
             }
             return {
@@ -45,11 +44,6 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Pr
                 newPostText: " "
             }
         }
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
-            }
         case SET_USER_PROFILE:
             return {
                 ...state,
@@ -67,8 +61,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Pr
     }
 }
 
-export const addPostAC = () => ({type: ADD_POST} as const)
-export const updateNewPostTextAC = (newText: any) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
+export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const)
 export const setUserProfileAC = (profile: any) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const getUserProfileTC = (userId: number) => (dispatch: any) => {
@@ -91,12 +84,10 @@ export const updateUserStatusTC = (status: string) => (dispatch: Dispatch) => {
 }
 
 type addPostActionType = ReturnType<typeof addPostAC>
-type updateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
 type setUserProfileActionType = ReturnType<typeof setUserProfileAC>
 type setStatusActionType = ReturnType<typeof setStatusAC>
 
 type ProfileActionTypes =
     addPostActionType
-    | updateNewPostTextActionType
     | setUserProfileActionType
     | setStatusActionType

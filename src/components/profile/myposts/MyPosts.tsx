@@ -2,44 +2,52 @@ import React from "react";
 import classes from './MyPosts.module.css'
 import {Post} from "./post/Post";
 import {PostType} from "../../../Redux/Store";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import {Textarea} from "../../common/FormControls/FormControls";
 
 
 type PropsType = {
     posts: Array<PostType>
     newPostText: string
-    addPost: () => void
-    updateNewPostText: (text: string) => void
+    addPost: (value: string) => void
 }
+type FormDataTypes = {
+    newPostText: string
+}
+let newPostElement = React.createRef<HTMLTextAreaElement>();
+
+export const maxLength50 = maxLengthCreator(50)
+
+const NewPostElementForm: React.FC<InjectedFormProps<FormDataTypes>> = (props) => {
+    return <form onSubmit={props.handleSubmit}>
+        <div>
+            <Field  component={Textarea} name={"newPostElement"} placeholder={"Say something"} validate={[required, maxLength50]} />
+        </div>
+        <div>
+            <button>Add post</button>
+        </div>
+    </form>
+}
+
+const NewPostElementFormRedux = reduxForm<FormDataTypes>({
+    form: "NewPost"
+})(NewPostElementForm)
 
 const MyPosts = (props: PropsType) => {
 
     let postsElements = props.posts.map((post) => <Post message={post.message} id={post.id} like={post.like}/>)
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
 
-    let onAddPost = () => {
-        props.addPost()
-        if (newPostElement.current) {
-            newPostElement.current.value = " "
-        }
-    }
-
-    let onPostChange = () => {
-        let text = (newPostElement.current ? newPostElement.current.value : "---")
-        props.updateNewPostText(text)
-
+    let onAddPost = (value: FormDataTypes) => {
+        props.addPost(value.newPostText)
     }
 
     return (
         <div className={classes.postsBlock}>
             <h3>My posts</h3>
             <div>
-                <div>
-                    <textarea ref={newPostElement} onChange={onPostChange}/>
-                </div>
-                <div>
-                    <button onClick={onAddPost}>Add post</button>
-                </div>
+                <NewPostElementFormRedux onSubmit={onAddPost}  />
             </div>
             <div className={classes.posts}>
                 {postsElements}
@@ -49,6 +57,10 @@ const MyPosts = (props: PropsType) => {
     )
 
 }
+
+
+
+
 
 
 export default MyPosts;
