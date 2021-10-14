@@ -4,5 +4,8 @@
     border:  solid red 2px;
 }
  .formControl.error span {
-    color: red
-}
+     color: red
+ }
+ .formEntireError {
+     color: red;
+ }
