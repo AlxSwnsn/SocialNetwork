@@ -22,7 +22,8 @@ export const maxLength50 = maxLengthCreator(50)
 const NewPostElementForm: React.FC<InjectedFormProps<FormDataTypes>> = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
-            <Field  component={Textarea} name={"newPostElement"} placeholder={"Say something"} validate={[required, maxLength50]} />
+            <Field component={Textarea} name={"newPostElement"} placeholder={"Say something"}
+                   validate={[required, maxLength50]}/>
         </div>
         <div>
             <button>Add post</button>
@@ -34,7 +35,7 @@ const NewPostElementFormRedux = reduxForm<FormDataTypes>({
     form: "NewPost"
 })(NewPostElementForm)
 
-const MyPosts = (props: PropsType) => {
+const MyPosts = React.memo<PropsType>(props => {
 
     let postsElements = props.posts.map((post) => <Post message={post.message} id={post.id} like={post.like}/>)
 
@@ -47,7 +48,7 @@ const MyPosts = (props: PropsType) => {
         <div className={classes.postsBlock}>
             <h3>My posts</h3>
             <div>
-                <NewPostElementFormRedux onSubmit={onAddPost}  />
+                <NewPostElementFormRedux onSubmit={onAddPost}/>
             </div>
             <div className={classes.posts}>
                 {postsElements}
@@ -56,11 +57,7 @@ const MyPosts = (props: PropsType) => {
         </div>
     )
 
-}
-
-
-
-
+})
 
 
 export default MyPosts;

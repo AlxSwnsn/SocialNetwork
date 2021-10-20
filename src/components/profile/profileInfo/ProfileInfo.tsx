@@ -3,6 +3,7 @@ import classes from './ProfileInfo.module.css'
 import Preloader from "../../common/preloader/Preloader";
 import {ProfileInfoType} from "../../../Redux/ProfileReducer";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusHooks from "./ProfileStatusHooks";
 
 export type ProfileInfoProps = {
     profile: ProfileInfoType | null
@@ -22,7 +23,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
             </div>
             <div className={classes.descriptionBlock}>
                 Avatar + description
-                <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+                <ProfileStatusHooks status={props.status} updateStatus={props.updateStatus} />
             </div>
         </div>
     )
