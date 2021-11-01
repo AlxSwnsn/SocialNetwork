@@ -64,23 +64,22 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Pr
 export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const)
 export const setUserProfileAC = (profile: any) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
-export const getUserProfileTC = (userId: number) => (dispatch: any) => {
 
-    profileAPI.getProfile(userId).then(response => {
-        dispatch(setUserProfileAC(response.data))
-    })
+export const getUserProfileTC = (userId: number) => async (dispatch: any) => {
+    const response = await (profileAPI.getProfile(userId))
+    dispatch(setUserProfileAC(response.data))
+
 }
-export const getUserStatusTC = (userId: number | string) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId).then(response => {
-        dispatch(setStatusAC(response.data))
-    })
+export const getUserStatusTC = (userId: number | string) => async (dispatch: Dispatch) => {
+    const response = await (profileAPI.getStatus(userId))
+    dispatch(setStatusAC(response.data))
+
 }
-export const updateUserStatusTC = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setStatusAC(status))
-        }
-    })
+export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch) => {
+    const response = await (profileAPI.updateStatus(status))
+    if (response.data.resultCode === 0) {
+        dispatch(setStatusAC(status))
+    }
 }
 
 type addPostActionType = ReturnType<typeof addPostAC>

@@ -1,4 +1,3 @@
-import {type} from "os";
 import {authAPI} from "../API/API";
 import {stopSubmit} from "redux-form";
 
@@ -40,30 +39,27 @@ export const setAuthUserDataAC = (id: number | null, login: string | null, email
     payload: {id, login, email, isAuth}
 } as const)
 
-export const getAuthUserDataTC = () => (dispatch: any) => {
-    return authAPI.me().then(response => {
-        if (response.data.resultCode === 0) {
-            let {id, login, email} = response.data.data
-            dispatch(setAuthUserDataAC(id, login, email, true))
-        }
-    })
+export const getAuthUserDataTC = () => async (dispatch: any) => {
+    const response = await authAPI.me()
+    if (response.data.resultCode === 0) {
+        let {id, login, email} = response.data.data
+        dispatch(setAuthUserDataAC(id, login, email, true))
+    }
 }
-export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
-    authAPI.login(email, password, rememberMe).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(getAuthUserDataTC())
-        } else {
-            dispatch(stopSubmit("Login", {_error: "Email or password is incorrect"}))
-        }
-    })
+export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+    const response = await (authAPI.login(email, password, rememberMe))
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserDataTC())
+    } else {
+        dispatch(stopSubmit("Login", {_error: "Email or password is incorrect"}))
+    }
 }
-export const logoutTC = () => (dispatch: any) => {
-    authAPI.logout().then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setAuthUserDataAC(null, null, null, false))
+export const logoutTC = () => async (dispatch: any) => {
+    const response = await (authAPI.logout())
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserDataAC(null, null, null, false))
 
-        }
-    })
+    }
 }
 
 

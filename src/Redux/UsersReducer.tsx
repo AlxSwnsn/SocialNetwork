@@ -111,41 +111,34 @@ export const toggleIsFollowingProgress = (value: boolean, userID: number) => ({
 } as const)
 
 export const requestUsers = (page: number, pageSize: number) => {
-    return (dispatch: any) => {
+    return async (dispatch: any) => {
         dispatch(toggleIsFetching(true))
         dispatch(setCurrentPage(page))
-        usersAPI.getUsers(page, pageSize).then(data => {
-            dispatch(setUsers(data.items))
-            dispatch(setTotalUsersCount(data.totalCount))
-            dispatch(toggleIsFetching(false))
-        })
+        const response = await (usersAPI.getUsers(page, pageSize))
+        dispatch(setUsers(response.items))
+        dispatch(setTotalUsersCount(response.totalCount))
+        dispatch(toggleIsFetching(false))
+    }
+}
+export const followUnfollow = (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>, userId: number, apiMethod: any, actionCreator: any) => {
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>) => {
+        dispatch(toggleIsFollowingProgress(true, userId))
+        const response = await apiMethod(userId)
+        if (response.data.resultCode === 0) {
+            dispatch(actionCreator(userId))
+        }
+        dispatch(toggleIsFollowingProgress(false, userId))
     }
 }
 
 export const follow = (userId: number) => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>) => {
-        dispatch(toggleIsFollowingProgress(true, userId))
-        usersAPI.follow(userId)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(followSuccess(userId))
-                }
-                dispatch(toggleIsFollowingProgress(false, userId))
-
-            })
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>) => {
+        followUnfollow(dispatch, userId, usersAPI.follow.bind(userId), followSuccess)
     }
 }
 export const unfollow = (userId: number) => {
-    return (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>) => {
-        dispatch(toggleIsFollowingProgress(true, userId))
-        usersAPI.unfollow(userId)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(unfollowSuccess(userId))
-                }
-                dispatch(toggleIsFollowingProgress(false, userId))
-
-            })
+    return async (dispatch: ThunkDispatch<AppStateType, unknown, usersActionTypes>) => {
+        followUnfollow(dispatch, userId, usersAPI.unfollow.bind(userId), unfollowSuccess)
     }
 }
 
@@ -156,7 +149,6 @@ type setCurrentPageActionType = ReturnType<typeof setCurrentPage>
 type setTotalUsersCountActionType = ReturnType<typeof setTotalUsersCount>
 type toggleIsFetchingActionType = ReturnType<typeof toggleIsFetching>
 type toggleIsFollowingProgressActionType = ReturnType<typeof toggleIsFollowingProgress>
-
 
 type usersActionTypes =
     followActionType
