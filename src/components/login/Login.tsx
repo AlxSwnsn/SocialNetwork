@@ -1,6 +1,6 @@
 import React from "react";
 import {Field, reduxForm, InjectedFormProps} from "redux-form";
-import {Input} from "../common/FormControls/FormControls";
+import {createField, Input} from "../common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {loginTC} from "../../Redux/AuthReducer";
@@ -9,31 +9,17 @@ import {AppStateType} from "../../Redux/ReduxStore";
 import s from "./../common/FormControls/FormControls.module.css"
 
 type FormDataTypes = {
-    login: string
+    email: string
     password: string
     rememberMe: boolean
-    isAuth: boolean
+    //isAuth: boolean
 }
 
 const LoginForm: React.FC<InjectedFormProps<FormDataTypes>> = (props) => {
     return <form onSubmit={props.handleSubmit}>
-        <div>
-            <Field name={"login"}
-                   placeholder={"Email"}
-                   validate={[required]}
-                   component={Input}/>
-
-        </div>
-        <div>
-            <Field name={"password"}
-                   placeholder={"Password"}
-                   type={"password"}
-                   validate={[required]}
-                   component={Input}/>
-        </div>
-        <div>
-            <Field type={"checkbox"} name={"rememberMe"} component={Input}/>Remember me
-        </div>
+        {createField("email","Email", [required], Input, "email")}
+        {createField("password","Password", [required], Input, "password")}
+        {createField("checkbox",null, [], Input, "checkbox")}
         {props.error && <div className={s.formEntireError}>
             {props.error}
         </div>}
@@ -46,11 +32,17 @@ const LoginReduxForm = reduxForm<FormDataTypes>({
     form: "Login"
 })(LoginForm)
 
-const Login = (props: any) => {
+type LoginPropsType = {
+    loginTC: (email: string, password: string, rememberMe: boolean) => void
+    isAuth: boolean
+}
+
+const Login: React.FC<LoginPropsType> = ({loginTC, isAuth}) => {
     const login = (formData: FormDataTypes) => {
-        props.loginTC(formData.login, formData.password, formData.rememberMe)
+        debugger
+        loginTC(formData.email, formData.password, formData.rememberMe)
     }
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={"/profile"}/>
     }
     return <div>

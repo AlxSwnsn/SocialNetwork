@@ -1,8 +1,6 @@
 import React from "react";
 import './App.css';
-import Header from "./components/header/Header";
 import Navbar from "./components/navbar/Navbar";
-import Profile from "./components/profile/Profile";
 import {Route, withRouter} from "react-router-dom";
 import Music from "./components/music/Music";
 import News from "./components/news/News";
@@ -13,8 +11,7 @@ import HeaderContainer from "./components/header/HeaderContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import Login from "./components/login/Login";
 import {connect} from "react-redux";
-import {DataType, initializeAppTC} from "./Redux/AppReducer";
-import {initialize} from "redux-form";
+import {initializeAppTC} from "./Redux/AppReducer";
 import {AppStateType} from "./Redux/ReduxStore";
 import Preloader from "./components/common/preloader/Preloader";
 
