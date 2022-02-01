@@ -29,7 +29,7 @@ export const Input = ({input, meta, ...props}: InputPropsType) => {
         </div>
     )
 }
-export const createField = (name: string, placeholder: string|null, validate: ((value: string) => (undefined |string))[], component: ({input, meta,...props}: any) => JSX.Element, type: string, text?: string) => (
+export const createField = (name: string, placeholder: string|null, validate: ((value: string) => (undefined |string))[], component: ({input, meta,...props}: any) => JSX.Element, type: any, text?: string) => (
     <div>
         <Field name={name}
                placeholder={placeholder}

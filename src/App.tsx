@@ -5,8 +5,6 @@ import {Route, withRouter} from "react-router-dom";
 import Music from "./components/music/Music";
 import News from "./components/news/News";
 import Settings from "./components/settings/Settings";
-import DialogsContainer from "./components/dialogs/DialogsContainer";
-import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import Login from "./components/login/Login";
@@ -14,6 +12,11 @@ import {connect} from "react-redux";
 import {initializeAppTC} from "./Redux/AppReducer";
 import {AppStateType} from "./Redux/ReduxStore";
 import Preloader from "./components/common/preloader/Preloader";
+import {withSuspense} from "./HOC/withSuspense";
+
+const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer"));
+const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"));
+
 
 class App extends React.Component<any> {
     componentDidMount() {
@@ -29,12 +32,8 @@ class App extends React.Component<any> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className={"app-wrapper-content"}>
-                    <Route path={'/dialogs'} render={() => <DialogsContainer/>
-                    }/>
-                    <Route path={'/profile/:userId?'}
-                           render={() =>
-                               <ProfileContainer/>
-                           }/>
+                    <Route path={'/dialogs'} render={withSuspense(DialogsContainer)}/>
+                    <Route path={'/profile/:userId?'} render={withSuspense(ProfileContainer)}/>
                     <Route path={'/users'}
                            render={() =>
                                <UsersContainer/>}/>
@@ -48,7 +47,7 @@ class App extends React.Component<any> {
     }
 }
 
-const mapStateToProps = (state:AppStateType ) => ({
+const mapStateToProps = (state: AppStateType) => ({
     initialized: state.App.initialized
 })
 export default withRouter(connect(mapStateToProps, {initializeAppTC})(App));

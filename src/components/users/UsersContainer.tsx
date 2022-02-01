@@ -16,8 +16,7 @@ import {
     getAllUsers,
     getCurrentPage,
     getFollowingProgress,
-    getIsFetching,
-    getTotalUsersCount
+    getIsFetching, getTotalItemsCount
 } from "../../Redux/UsersSelectors";
 import {getPageSize} from "../../Redux/UsersSelectors";
 
@@ -25,7 +24,7 @@ import {getPageSize} from "../../Redux/UsersSelectors";
 type MapStateToPropsType = {
     users: Array<UserType>
     pageSize: number
-    totalUsersCount: number
+    totalItemsCount: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
     isFetching: boolean
@@ -35,7 +34,8 @@ type MapStateToPropsType = {
 export type PropsType = {
     users: Array<UserType>
     pageSize: number
-    totalUsersCount: number
+    totalItemsCount: number
+    portionSize: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
     isFetching: boolean
@@ -65,8 +65,9 @@ class UsersContainer extends React.Component<PropsType> {
             {this.props.isFetching ?
                 <Preloader/> : null}
             <Users
-                totalUsersCount={this.props.totalUsersCount}
+                totalUsersCount={this.props.totalItemsCount}
                 pageSize={this.props.pageSize}
+                portionSize={10}
                 currentPage={this.props.currentPage}
                 onPageChanged={this.onPageChanged}
                 users={this.props.users}
@@ -83,7 +84,7 @@ class UsersContainer extends React.Component<PropsType> {
     return {
     users: getAllUsers(state),
     pageSize: getPageSize(state),
-    totalUsersCount: getTotalUsersCount(state),
+    totalItemsCount: getTotalItemsCount(state),
     currentPage: getCurrentPage(state),
     onPageChanged: function () {
     },

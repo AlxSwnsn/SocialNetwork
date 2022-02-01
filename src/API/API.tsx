@@ -1,10 +1,11 @@
 import axios from "axios";
+import {ProfileInfoType} from "../Redux/ProfileReducer";
 
 export let instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        "API-KEY": "ad7bdc65-ea32-4d2b-8754-372621fa31e8"
+        "API-KEY": "2f11e5d5-68ba-489d-a347-1854af42d6b4"
     }
 })
 
@@ -35,6 +36,15 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put(`profile/status/`, {status: status})
     },
+    savePhoto(file: File) {
+        const formData = new FormData()
+        formData.append("image", file)
+        return instance.put('profile/photo/', formData, {headers: {'content-type': 'multipart/form-data'}})
+    },
+    saveProfile(profile: ProfileInfoType) {
+        return instance.put(`profile/`, profile)
+
+    }
 }
 export const authAPI = {
     me() {

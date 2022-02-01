@@ -8,10 +8,14 @@ import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/ReduxStore";
 import s from "./../common/FormControls/FormControls.module.css"
 
-type FormDataTypes = {
+export type FormDataTypes = {
     email: string
     password: string
     rememberMe: boolean
+    photos: {
+        large: string
+        small: string
+    }
     //isAuth: boolean
 }
 
@@ -38,8 +42,7 @@ type LoginPropsType = {
 }
 
 const Login: React.FC<LoginPropsType> = ({loginTC, isAuth}) => {
-    const login = (formData: FormDataTypes) => {
-        debugger
+    const onSubmit = (formData: FormDataTypes) => {
         loginTC(formData.email, formData.password, formData.rememberMe)
     }
     if (isAuth) {
@@ -47,7 +50,7 @@ const Login: React.FC<LoginPropsType> = ({loginTC, isAuth}) => {
     }
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={login}/>
+        <LoginReduxForm onSubmit={onSubmit}/>
     </div>
 }
 

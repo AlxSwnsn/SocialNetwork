@@ -8,6 +8,7 @@ import {Pagination} from "../common/Pagination/Pagination";
 type PropsType = {
     totalUsersCount: number
     pageSize: number
+    portionSize: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
     users: Array<UserType>
@@ -19,7 +20,7 @@ export let Users = (props: PropsType) => {
 
     return <div>
         <Pagination currentPage={props.currentPage} onPageChanged={props.onPageChanged}
-                    totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}/>
+                    totalItemsCount={props.totalUsersCount} pageSize={props.pageSize} portionSize={10}/>
         {
             props.users.map(u => <div key={u.id}>
                 <span>
