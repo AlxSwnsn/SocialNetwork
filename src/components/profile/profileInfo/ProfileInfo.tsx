@@ -37,9 +37,10 @@ const ProfileInfo = (props: ProfileInfoProps) => {
     }
 
     const onSubmit = (formData: ProfileInfoType) => {
-        dispatch(saveProfileTC(formData))
-        setEditMode(false)
-    }
+        dispatch(saveProfileTC(formData).then(
+            ()=>{
+            setEditMode(false)
+        }))}
 
     return (
         <div>
@@ -48,7 +49,8 @@ const ProfileInfo = (props: ProfileInfoProps) => {
                 } className={s.mainPhoto}/>
                 {props.isOwner &&
                 <input type={"file"} onChange={onMainPhotoSelected}/>}
-                {editMode ? <ProfileDataFormReduxForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit}/> :
+                {editMode ? <ProfileDataFormReduxForm initialValues={props.profile} profile={props.profile}
+                                                      onSubmit={onSubmit}/> :
                     <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={() => {
                         setEditMode(true)
                     }}/>}
@@ -70,7 +72,7 @@ const ProfileData = (props: { isOwner: boolean, profile: ProfileInfoType, goToEd
         <div><b>Looking for a job</b>: {props.profile.lookingForAJob ? "yes" : "no"}  </div>
         {props.profile.lookingForAJob &&
         <div><b>My skills</b>: {props.profile.lookingForAJobDescription}  </div>}
-        <div><b>About me</b>: </div>
+        <div><b>About me</b>:</div>
         <div><b>Contacts</b>: {Object.keys(props.profile.contacts).map(key => {
             return <Contacts key={key} contactTitle={key} contactValue={props.profile?.contacts[key]}/>
         })}  </div>

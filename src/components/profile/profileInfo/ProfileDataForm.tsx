@@ -2,9 +2,10 @@ import {ProfileInfoType} from "../../../Redux/ProfileReducer";
 import React from "react";
 import {createField, Input, Textarea} from "../../common/FormControls/FormControls";
 import {InjectedFormProps, reduxForm} from "redux-form";
-import {ProfileInfoProps} from "./ProfileInfo";
-import {FormDataTypes} from "../../login/Login";
+ import {FormDataTypes} from "../../login/Login";
 import s from './ProfileInfo.module.css'
+import style from "./../../common/FormControls/FormControls.module.css"
+
 
 
 type PropsType = {
@@ -16,8 +17,11 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileInfoType, PropsType> & 
 
     return <form onSubmit={props.handleSubmit}>
         <div>
-            <button>Save
-            </button>
+            <button>Save</button>
+            {props.error && <div className={style.formEntireError}>
+                {props.error}
+            </div>
+            }
         </div>
         <div><b>Full name</b>: {createField("fullName", "Full name", [], Input, "")}  </div>
 

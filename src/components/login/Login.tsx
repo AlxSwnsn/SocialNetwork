@@ -19,7 +19,7 @@ export type FormDataTypes = {
     //isAuth: boolean
 }
 
-const LoginForm: React.FC<InjectedFormProps<FormDataTypes>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataTypes>> = (props, error) => {
     return <form onSubmit={props.handleSubmit}>
         {createField("email","Email", [required], Input, "email")}
         {createField("password","Password", [required], Input, "password")}

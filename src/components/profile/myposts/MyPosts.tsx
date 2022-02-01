@@ -37,7 +37,7 @@ const NewPostElementFormRedux = reduxForm<FormDataTypes>({
 
 const MyPosts = React.memo<PropsType>(props => {
 
-    let postsElements = props.posts.map((post) => <Post message={post.message} id={post.id} like={post.like}/>)
+    let postsElements = props.posts.map((post) => <Post key={post.id} message={post.message} id={post.id} like={post.like}/>)
 
 
     let onAddPost = (value: FormDataTypes) => {
