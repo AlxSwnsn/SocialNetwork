@@ -37,10 +37,13 @@ const ProfileInfo = (props: ProfileInfoProps) => {
     }
 
     const onSubmit = (formData: ProfileInfoType) => {
-        dispatch(saveProfileTC(formData).then(
-            ()=>{
-            setEditMode(false)
-        }))}
+        // const promise =
+        dispatch(saveProfileTC(formData))
+        // promise.then(
+        //     () => {
+        //         setEditMode(false)
+        //     })
+    }
 
     return (
         <div>

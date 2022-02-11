@@ -3,6 +3,7 @@ import {profileAPI} from "../API/API";
 import {Dispatch} from "redux";
 import {AppStateType} from "./ReduxStore";
 import {stopSubmit} from "redux-form";
+import {DispatchProp} from "react-redux";
 
 export const ADD_POST = "ADD-POST"
 export const SET_USER_PROFILE = "SET-USER-PROFILE"
@@ -104,12 +105,11 @@ export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
     }
 }
 
-export const saveProfileTC = (profile: ProfileInfoType) => async (dispatch: Dispatch, getState: ()=> AppStateType) => {
+export const saveProfileTC = (profile: ProfileInfoType) => async (dispatch: any, getState: ()=> AppStateType) => {
     const userId = getState().Auth.id
     const response = await (profileAPI.saveProfile(profile))
     if (response.data.resultCode === 0) {
-        const resp = await (profileAPI.getProfile(userId))
-        dispatch(setUserProfileAC(resp.data))
+        dispatch(getUserProfileTC(userId))
     }
     else {
         dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}))
